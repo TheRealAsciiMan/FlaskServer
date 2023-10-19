@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/acc.png') }}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='bootstrap/bootstrap.min.css') }}">
+    <script src="{{ url_for('static',filename='bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <title>Accueil</title>
+  </head>
+  <body>
+  <div class="container">
+    <header class="text-center">
+      <h1 style="margin: 30px;">Les meilleurs livres de science-fiction</h1>
+    </header>
+    <div class="table-responsive">
+        {{liste|safe}}
+    </div>
+    <div>
+      <p class="text-center fs-3"><a class="link-underline-success link-underline-opacity-0 link-underline-opacity-100-hover link-opacity-100 link-offset-3" href="/ajout" target="_blank">Rajoutez un Livre ici !</a></p>
+    </div>
+  </div>
+  </body>
+</html>

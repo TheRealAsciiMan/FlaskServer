@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/livre.png') }}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='bootstrap/bootstrap.min.css') }}">
+    <script src="{{ url_for('static',filename='bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <title>Ajouter un Livre</title>
+</head>
+<body>
+<div class="container">
+    <header class="text-center">
+      <h1 style="margin: 30px;">Formulaire d'enregistrement de livre</h1>
+    </header>
+    <div>
+        <form method="post" action="/ajouter_livre">
+          <div class="mb-3">
+            <label for="Titre" class="form-label">Titre du livre </label>
+            <input type="text" class="form-control" id="Titre" name="titre" required>
+          </div>
+          <div class="mb-3">
+            <label for="Auteur" class="form-label">Auteur du Livre </label>
+            <input type="text" class="form-control" id="Auteur" name="auteur" required>
+          </div>
+          <div class="mb-3">
+            <label for="Annee" class="form-label">Année de publication du Livre </label>
+            <input type="number" class="form-control" pattern="\d{4}" id="Annee" name="annee" required>
+          </div>
+          <div class="mb-3">
+            <label for="Note" class="form-label">Note du Livre</label>
+            <input type="number" min="0" max="10" step="1" class="form-control" id="Note" name="note" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+  </div>
+</body>
+</html>
