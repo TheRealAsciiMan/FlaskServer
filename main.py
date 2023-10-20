@@ -24,20 +24,23 @@ def main():
     def ajout():
         return render_template("ajout.html")
 
-    @app.route('/ajouter_livre', methods=['POST'])
+    @app.route('/ajouter_livre', methods=['POST', 'GET'])
     def ajouter_livre():
-        titre = request.form.get('titre')
-        auteur = request.form.get('auteur')
-        annee = int(request.form.get('annee'))
-        note = int(request.form.get('note'))
-        data = (titre, auteur, annee, note)
-        conn = sqlite3.connect('baseDonnees.db')
-        cur = conn.cursor()
-        cur.execute("INSERT INTO LIVRES(titre,auteur,ann_publi,note) VALUES(?, ?, ?, ?)", data)
-        conn.commit()
-        cur.close()
-        conn.close()
-        return redirect('/')
+        if request.method == 'GET':
+            return redirect('/')
+        elif request.method == 'POST':
+            titre = request.form.get('titre')
+            auteur = request.form.get('auteur')
+            annee = int(request.form.get('annee'))
+            note = int(request.form.get('note'))
+            data = (titre, auteur, annee, note)
+            conn = sqlite3.connect('baseDonnees.db')
+            cur = conn.cursor()
+            cur.execute("INSERT INTO LIVRES(titre,auteur,ann_publi,note) VALUES(?, ?, ?, ?)", data)
+            conn.commit()
+            cur.close()
+            conn.close()
+            return redirect('/')
     app.run(debug=True, host='0.0.0.0', port=80)
 
 if __name__ == "__main__":
