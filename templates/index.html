@@ -1,24 +1,142 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/acc.png') }}" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='bootstrap/bootstrap.min.css') }}">
-    <script src="{{ url_for('static',filename='bootstrap/bootstrap.bundle.min.js') }}"></script>
-    <title>Accueil</title>
-  </head>
-  <body>
-  <div class="container">
-    <header class="text-center">
-      <h1 style="margin: 30px;">Les meilleurs livres de science-fiction</h1>
-    </header>
-    <div class="table-responsive">
-        {{liste|safe}}
-    </div>
-    <div>
-      <p class="text-center fs-3"><a class="link-underline-success link-underline-opacity-0 link-underline-opacity-100-hover link-opacity-100 link-offset-3" href="/ajout" target="_blank">Rajoutez un Livre ici !</a></p>
-    </div>
-  </div>
-  </body>
+   <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link
+         rel="shortcut icon"
+         href="{{ url_for('static', filename='images/asgr.png') }}"
+         type="image/x-icon"
+      />
+      <link
+         rel="stylesheet"
+         type="text/css"
+         href="{{ url_for('static',filename='bootstrap/bootstrap.min.css') }}"
+      />
+      <script src="{{ url_for('static',filename='bootstrap/bootstrap.bundle.min.js') }}"></script>
+      <title>AsciiGram</title>
+   </head>
+   <body class="bg-black" style="margin: 0; border: 0; padding: 0">
+      <div class="row" style="margin: 0; border: 0; padding: 0">
+         <div class="col-2">
+            <nav
+               class="navbar navbar-dark navbar-nav"
+               style="margin: 0; border: 0; padding: 0"
+            >
+               <div class="container-fluid">
+                  <div class="row" style="margin-right: 0px">
+                     <a
+                        class="navbar-brand"
+                        href="/"
+                        style="
+                           height: 10vh;
+                           padding: 0;
+                           border-right: 2px solid #1a1a1a;
+                        "
+                     >
+                        <img
+                           src="{{ url_for('static', filename='images/asgrfull.png') }}"
+                           alt="Logo"
+                           style="width: 15vh; margin-right: -20px"
+                           class="m-3"
+                        />
+                     </a>
+                     <nav
+                        class="d-block"
+                        style="
+                           margin: 0;
+                           border: 0;
+                           padding: 0;
+                           border-right: 2px solid #1a1a1a;
+                           height: 90vh;
+                        "
+                     >
+                        <div class="position-sticky mx-5">
+                           <ul class="navbar-nav flex-column">
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link active"
+                                    href="#"
+                                    onmouseover="this.style.backgroundColor = '#1a1a1a';"
+                                    onmouseout="this.style.backgroundColor='';"
+                                 >
+                                    <img
+                                       src="{{ url_for('static',filename='images/home.svg') }}"
+                                       alt="Home"
+                                       style="width: 2vh; margin-right: -20px"
+                                       class="m-2"
+                                    />
+                                    Accueil
+                                 </a>
+                              </li>
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link"
+                                    href="/login"
+                                    onmouseover="this.style.backgroundColor = '#1a1a1a';"
+                                    onmouseout="this.style.backgroundColor='';"
+                                 >
+                                    <img
+                                       src="{{ url_for('static',filename='images/login.svg') }}"
+                                       alt="Login"
+                                       style="width: 2vh"
+                                       class="m-2"
+                                    />
+                                    Connexion
+                                 </a>
+                              </li>
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link"
+                                    href="/inscription"
+                                    onmouseover="this.style.backgroundColor = '#1a1a1a';"
+                                    onmouseout="this.style.backgroundColor='';"
+                                 >
+                                    <img
+                                       src="{{ url_for('static',filename='images/register.svg') }}"
+                                       alt="Register"
+                                       style="width: 2vh"
+                                       class="m-2"
+                                    />
+                                    Inscription
+                                 </a>
+                              </li>
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link"
+                                    href="/ajout"
+                                    onmouseover="this.style.backgroundColor = '#1a1a1a';"
+                                    onmouseout="this.style.backgroundColor='';"
+                                 >
+                                    <img
+                                       src="{{ url_for('static',filename='images/new.svg') }}"
+                                       alt="Upload"
+                                       style="width: 2vh"
+                                       class="m-2"
+                                    />
+                                    Nouvelle Publication
+                                 </a>
+                              </li>
+                           </ul>
+                        </div>
+                     </nav>
+                  </div>
+               </div>
+            </nav>
+         </div>
+         <div class="col-1"></div><div" class="align-items-start col-8 text-light">
+            {% for item in liste %}
+            <div class="post brp">
+               <h2 class="text-start" style="padding: 1vh; padding-left: 0; padding-top: 3vh;">{{ item[0] }}</h2>
+               <h5 class="text-end">Auteur : {{ item[4] }} ({{ item[3]}})</h5>
+               <h6 class="text-end" style="padding-bottom: 1vh;">Date exacte d'écriture: {{ item[2] }}</h6>
+               <p class="text-start" style="padding-bottom: 3vh; line-height: 2vh;">{% autoescape false %}{{ item[1]|safe}}{% endautoescape %}</p>
+            </div>
+            {% if not loop.last %}
+            <hr style="background-color: #262626" />
+            {% endif %} {% endfor %}
+         </div>
+         <div class="col-1"></div>
+      </div>
+   </body>
 </html>

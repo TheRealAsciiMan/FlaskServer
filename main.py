@@ -4,21 +4,14 @@ def main():
     app = Flask(__name__)
     @app.route('/')
     def index():
-        conn = sqlite3.connect('baseDonnees.db')
+        conn = sqlite3.connect('dataBase.db')
         cur = conn.cursor()
-        cur.execute('SELECT * FROM LIVRES')
+        cur.execute('SELECT Posts.*, Users.pseudo FROM Posts INNER JOIN Users ON Posts.auteur = Users.Mail;')
         conn.commit()
         liste = cur.fetchall()
         cur.close()
         conn.close()
-        table_html =  "<table class=\"table table-dark table-hover table-bordered table-striped \"><thead class=\"table-danger\"><tr><th>ID</th><th>Titre</th><th>Auteur</th><th>Année de publication</th><th>Note</th></tr></thead><tbody class=\"table-group-divider\">"
-        for livre in liste:
-                table_html += "<tr>"
-                for i in range(len(livre)):
-                    table_html += "<td>" + str(livre[i]) + "</td>"
-                table_html += "</tr>"
-        table_html += "</tbody></table>"
-        return render_template("index.html", liste = table_html)
+        return render_template("index.html", liste = liste)
 
     @app.route('/ajout')
     def ajout():
@@ -42,6 +35,7 @@ def main():
             conn.close()
             return redirect('/')
     app.run(debug=True, host='0.0.0.0', port=80)
+
 
 if __name__ == "__main__":
     main()
