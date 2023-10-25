@@ -55,7 +55,7 @@
                            <ul class="navbar-nav flex-column">
                               <li class="nav-item">
                                  <a
-                                    class="nav-link active"
+                                    class="nav-link"
                                     href="/"
                                     onmouseover="this.style.backgroundColor = '#1a1a1a';"
                                     onmouseout="this.style.backgroundColor='';"
@@ -71,7 +71,7 @@
                               </li>
                               <li class="nav-item">
                                  <a
-                                    class="nav-link"
+                                    class="nav-link active"
                                     href="/login"
                                     onmouseover="this.style.backgroundColor = '#1a1a1a';"
                                     onmouseout="this.style.backgroundColor='';"
@@ -127,29 +127,63 @@
             </nav>
          </div>
          <div class="col-1"></div>
-         <div class="align-items-start col-8 text-light">
-            {% for item in liste %}
-            <div class="post brp">
-               <h2
-                  class="text-start"
-                  style="padding: 1vh; padding-left: 0; padding-top: 3vh"
+         <div
+            class="container align-items-start col-8 text-light text-center"
+            style="
+               margin-bottom: 25%;
+               margin-top: 10%;
+               border: 2px solid #cccccc;
+               background-color: #1a1a1a;
+               border-radius: 10px;
+            "
+         >
+            <h1 class="card-header m-4">Connexion</h1>
+            <br />
+            <form method="POST" action="/action_login" class="card-body">
+               <div class="form-group m-4">
+                  <label for="mail">Adresse email</label>
+                  <input
+                     type="email"
+                     id="mailform"
+                     name="mail"
+                     class="form-control"
+                     style="width: 30%; margin: 0 auto"
+                     required
+                  />
+               </div>
+               <div class="form-group m-4">
+                  <label for="password">Mot de passe</label>
+                  <input
+                     type="password"
+                     id="passwordform"
+                     name="password"
+                     class="form-control"
+                     style="width: 30%; margin: 0 auto"
+                     pattern="[0-9]{8}"
+                     required
+                  />
+               </div>
+               <button type="submit" class="btn btn-primary btn-block m-4">
+                  Se connecter
+               </button>
+               <a href="/logout" class="btn btn-primary btn-block m-4"
+                  >Se déconnecter</a
                >
-                  {{ item[0] }}
-               </h2>
-               <h5 class="text-end">Auteur : {{ item[4] }} ({{ item[3]}})</h5>
-               <h6 class="text-end" style="padding-bottom: 1vh">
-                  Date exacte d'écriture: {{ item[2] }}
-               </h6>
-               <p
-                  class="text-start"
-                  style="padding-bottom: 3vh; line-height: 2vh"
-               >
-                  {{ item[1]|safe}}
-               </p>
-            </div>
-            {% if not loop.last %}
-            <hr style="background-color: #262626" />
-            {% endif %} {% endfor %}
+            </form>
+            <br />
+            <p>
+               <em>
+                  Le mot de passe correspond à la date de création de compte
+                  écrit à l'envers : Si mon compte a été créé le 12 novembre
+                  1956 le mot de passe sera : 19561112
+               </em>
+            </p>
+            {% if request.args.error %}
+            <br />
+            <hr />
+            <br />
+            <p class="text-danger">Identifiants invalides</p>
+            {% endif %}
          </div>
          <div class="col-1"></div>
       </div>

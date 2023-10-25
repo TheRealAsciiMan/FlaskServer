@@ -1,39 +1,144 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/livre.png') }}" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='bootstrap/bootstrap.min.css') }}">
-    <script src="{{ url_for('static',filename='bootstrap/bootstrap.bundle.min.js') }}"></script>
-    <title>Ajouter un Livre</title>
-</head>
-<body>
-<div class="container">
-    <header class="text-center">
-      <h1 style="margin: 30px;">Formulaire d'enregistrement de livre</h1>
-    </header>
-    <div>
-        <form method="post" action="/ajouter_livre">
-          <div class="mb-3">
-            <label for="Titre" class="form-label">Titre du livre </label>
-            <input type="text" class="form-control" id="Titre" name="titre" required>
-          </div>
-          <div class="mb-3">
-            <label for="Auteur" class="form-label">Auteur du Livre </label>
-            <input type="text" class="form-control" id="Auteur" name="auteur" required>
-          </div>
-          <div class="mb-3">
-            <label for="Annee" class="form-label">Année de publication du Livre </label>
-            <input type="number" class="form-control" pattern="\d{4}" id="Annee" name="annee" required>
-          </div>
-          <div class="mb-3">
-            <label for="Note" class="form-label">Note du Livre</label>
-            <input type="number" min="0" max="10" step="1" class="form-control" id="Note" name="note" required>
-          </div>
-          <button type="submit" class="btn btn-primary">Envoyer</button>
-        </form>
-    </div>
-  </div>
-</body>
+   <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link
+         rel="shortcut icon"
+         href="{{ url_for('static', filename='images/asgr.png') }}"
+         type="image/x-icon"
+      />
+      <link
+         rel="stylesheet"
+         type="text/css"
+         href="{{ url_for('static',filename='bootstrap/bootstrap.min.css') }}"
+      />
+      <script src="{{ url_for('static',filename='bootstrap/bootstrap.bundle.min.js') }}"></script>
+      <title>AsciiGram</title>
+   </head>
+   <body class="bg-black" style="margin: 0; border: 0; padding: 0">
+      <div class="row" style="margin: 0; border: 0; padding: 0">
+         <div class="col-2">
+            <nav
+               class="navbar navbar-dark navbar-nav"
+               style="margin: 0; border: 0; padding: 0"
+            >
+               <div class="container-fluid">
+                  <div class="row" style="margin-right: 0px">
+                     <a
+                        class="navbar-brand"
+                        href="/"
+                        style="
+                           height: 10vh;
+                           padding: 0;
+                           border-right: 2px solid #1a1a1a;
+                        "
+                     >
+                        <img
+                           src="{{ url_for('static', filename='images/asgrfull.png') }}"
+                           alt="Logo"
+                           style="width: 15vh; margin-right: -20px"
+                           class="m-3"
+                        />
+                     </a>
+                     <nav
+                        class="d-block"
+                        style="
+                           margin: 0;
+                           border: 0;
+                           padding: 0;
+                           border-right: 2px solid #1a1a1a;
+                           height: 90vh;
+                        "
+                     >
+                        <div class="position-sticky mx-5">
+                           <ul class="navbar-nav flex-column">
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link"
+                                    href="/"
+                                    onmouseover="this.style.backgroundColor = '#1a1a1a';"
+                                    onmouseout="this.style.backgroundColor='';"
+                                 >
+                                    <img
+                                       src="{{ url_for('static',filename='images/home.svg') }}"
+                                       alt="Home"
+                                       style="width: 2vh; margin-right: -20px"
+                                       class="m-2"
+                                    />
+                                    Accueil
+                                 </a>
+                              </li>
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link"
+                                    href="/login"
+                                    onmouseover="this.style.backgroundColor = '#1a1a1a';"
+                                    onmouseout="this.style.backgroundColor='';"
+                                 >
+                                    <img
+                                       src="{{ url_for('static',filename='images/login.svg') }}"
+                                       alt="Login"
+                                       style="width: 2vh"
+                                       class="m-2"
+                                    />
+                                    Connexion
+                                 </a>
+                              </li>
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link"
+                                    href="/inscription"
+                                    onmouseover="this.style.backgroundColor = '#1a1a1a';"
+                                    onmouseout="this.style.backgroundColor='';"
+                                 >
+                                    <img
+                                       src="{{ url_for('static',filename='images/register.svg') }}"
+                                       alt="Register"
+                                       style="width: 2vh"
+                                       class="m-2"
+                                    />
+                                    Inscription
+                                 </a>
+                              </li>
+                              {% if session['pseudo'] %}
+                              <li class="nav-item">
+                                 <a
+                                    class="nav-link"
+                                    href="/ajout"
+                                    onmouseover="this.style.backgroundColor = '#1a1a1a';"
+                                    onmouseout="this.style.backgroundColor='';"
+                                 >
+                                    <img
+                                       src="{{ url_for('static',filename='images/new.svg') }}"
+                                       alt="Upload"
+                                       style="width: 2vh"
+                                       class="m-2"
+                                    />
+                                    Nouvelle Publication
+                                 </a>
+                              </li>
+                              {% endif %}
+                           </ul>
+                        </div>
+                     </nav>
+                  </div>
+               </div>
+            </nav>
+         </div>
+         <div class="col-1"></div><div" class="align-items-start col-8 text-light">
+            {% for item in liste %}
+            <div class="post brp">
+               <h2 class="text-start" style="padding: 1vh; padding-left: 0; padding-top: 3vh;">{{ item[0] }}</h2>
+               <h5 class="text-end">Auteur : {{ item[4] }} ({{ item[3]}})</h5>
+               <h6 class="text-end" style="padding-bottom: 1vh;">Date exacte d'écriture: {{ item[2] }}</h6>
+               <p class="text-start" style="padding-bottom: 3vh; line-height: 2vh;">{{ item[1]|safe}}</p>
+            </div>
+            {% if not loop.last %}
+            <hr style="background-color: #262626" />
+            {% endif %} {% endfor %}
+         </div>
+         <div class="col-1"></div>
+      </div>
+   </body>
 </html>
