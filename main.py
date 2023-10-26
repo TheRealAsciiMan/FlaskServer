@@ -1,10 +1,10 @@
 from flask import Flask, render_template, request, redirect, session, url_for
+import datetime
 import sqlite3
 
 
 def main():
     app = Flask(__name__)
-    app.secret_key = "(L)SD>HD"
     @app.route('/')
     def index():
         conn = sqlite3.connect('dataBase.db')
@@ -16,16 +16,11 @@ def main():
         conn.close()
         return render_template("index.html", liste = liste)
 
-    @app.route('/ajout')
-    def ajout():
-        if 'pseudo' in session and type(session["pseudo"]) == str:
-            return render_template("ajout.html")
-        else:
-            return redirect("/")
 
     @app.route('/login')
     def login():
         return render_template("login.html")
+
 
     @app.route('/action_login', methods=['POST', 'GET'])
     def action_login():
@@ -38,41 +33,86 @@ def main():
             data = (mail, password)
             conn = sqlite3.connect('dataBase.db')
             cur = conn.cursor()
-            cur.execute('SELECT Pseudo, "Date d\'inscription"  FROM Users WHERE Mail = ? AND "Date d\'inscription" = ?', data)
+            cur.execute('SELECT *  FROM Users WHERE Mail = ? AND "Date d\'inscription" = ?', data)
             conn.commit()
             info = cur.fetchone()
             cur.close()
             conn.close()
             if info:
-                session['pseudo'] = info[0]
-                return redirect("/")
+                session["pseudo"] = info[0]
+                session["mail"] = info[1]
+                session["mod"] = info[3]
+                session["admin"] = info[4]
+                return redirect("/ajout")
             else:
-                return redirect(url_for("login", error = True))
+                return redirect(url_for("login", error = 1))
     @app.route('/logout')
     def logout():
         session['pseudo'] = None
+        session['mail'] = None
+        session["mod"] = None
+        session["admin"] =None
         return redirect("/login")
 
 
+    @app.route('/inscription')
+    def inscription():
+        return render_template("register.html")
 
-
-    @app.route('/ajouter_livre', methods=['POST', 'GET'])
-    def ajouter_livre():
+    @app.route('/action_inscription', methods=['POST', 'GET'])
+    def action_inscription():
         if request.method == 'GET':
             return redirect('/')
         elif request.method == 'POST':
-            titre = request.form.get('titre')
-            auteur = request.form.get('auteur')
-            annee = int(request.form.get('annee'))
-            note = int(request.form.get('note'))
-            data = (titre, auteur, annee, note)
-            conn = sqlite3.connect('baseDonnees.db')
+            pseudo = request.form.get('pseudo')
+            mail = request.form.get('mail')
+            date = datetime.datetime.now().strftime("%Y-%m-%d")
+            admin, mod = 0, 0
+            data = (pseudo, mail, date, admin, mod)
+            conn = sqlite3.connect('dataBase.db')
             cur = conn.cursor()
-            cur.execute("INSERT INTO LIVRES(titre,auteur,ann_publi,note) VALUES(?, ?, ?, ?)", data)
+            cur.execute('SELECT * FROM Users WHERE Mail = ?', mail)
             conn.commit()
-            cur.close()
-            conn.close()
+            info = cur.fetchone()
+            if info:
+                cur.close()
+                conn.close()
+                return redirect(url_for("inscription", error=1))
+            else:
+                cur.execute("INSERT INTO Users(Pseudo,Mail,'Date d\'inscription',Administrateur,Modérateur) VALUES(?, ?, ?, ?, ?)", data)
+                conn.commit()
+                cur.close()
+                conn.close()
+                return redirect('/')
+
+
+    @app.route('/ajout')
+    def ajout():
+        if 'pseudo' in session and type(session["pseudo"]) == str:
+            return render_template("ajout.html")
+        else:
+            return redirect("/")
+
+    @app.route('/action_post', methods=['POST', 'GET'])
+    def action_post():
+        if request.method == 'GET':
             return redirect('/')
+        elif request.method == 'POST':
+            if 'pseudo' in session and type(session["pseudo"]) == str:
+                titre = request.form.get('titre')
+                contenu = request.form.get('contenu').replace("\r\n", "<br>").replace("\n", "<br>").replace("\r", "<br>")
+                date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                auteur = session["mail"]
+                data = (titre, contenu, date, auteur)
+                conn = sqlite3.connect('dataBase.db')
+                cur = conn.cursor()
+                cur.execute("INSERT INTO Posts(Titre,Contenu,Date,Auteur) VALUES(?, ?, ?, ?)", data)
+                conn.commit()
+                cur.close()
+                conn.close()
+                return redirect('/')
+            else:
+                return redirect(url_for("login", error=1))
 
 
     app.run(debug=True, host='0.0.0.0', port=80)
