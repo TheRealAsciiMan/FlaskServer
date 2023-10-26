@@ -5,6 +5,7 @@ import sqlite3
 
 def main():
     app = Flask(__name__)
+    app.secret_key = "SD>HD"
     @app.route('/')
     def index():
         conn = sqlite3.connect('dataBase.db')
@@ -48,10 +49,7 @@ def main():
                 return redirect(url_for("login", error = 1))
     @app.route('/logout')
     def logout():
-        session['pseudo'] = None
-        session['mail'] = None
-        session["mod"] = None
-        session["admin"] =None
+        session.clear()
         return redirect("/login")
 
 
