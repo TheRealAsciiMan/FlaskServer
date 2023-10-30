@@ -8,7 +8,7 @@ def main():
     app.secret_key = "SD>HD"
     @app.route('/')
     def index():
-        conn = sqlite3.connect('dataBase.db')
+        conn = sqlite3.connect('DataBase.db')
         cur = conn.cursor()
         cur.execute('SELECT Posts.*, Users.pseudo FROM Posts INNER JOIN Users ON Posts.auteur = Users.Mail;')
         conn.commit()
@@ -32,7 +32,7 @@ def main():
             password = request.form.get('password')
             password = password[:4] + '-' + password[4:6] + '-' + password[6:8]
             data = (mail, password)
-            conn = sqlite3.connect('dataBase.db')
+            conn = sqlite3.connect('DataBase.db')
             cur = conn.cursor()
             cur.execute('SELECT *  FROM Users WHERE Mail = ? AND "Date d\'inscription" = ?', data)
             conn.commit()
@@ -67,7 +67,7 @@ def main():
             date = datetime.datetime.now().strftime("%Y-%m-%d")
             admin, mod = 0, 0
             data = (pseudo, mail, date, admin, mod)
-            conn = sqlite3.connect('dataBase.db')
+            conn = sqlite3.connect('DataBase.db')
             cur = conn.cursor()
             cur.execute('SELECT * FROM Users WHERE Mail = ?', mail)
             conn.commit()
@@ -102,7 +102,7 @@ def main():
                 date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 auteur = session["mail"]
                 data = (titre, contenu, date, auteur)
-                conn = sqlite3.connect('dataBase.db')
+                conn = sqlite3.connect('DataBase.db')
                 cur = conn.cursor()
                 cur.execute("INSERT INTO Posts(Titre,Contenu,Date,Auteur) VALUES(?, ?, ?, ?)", data)
                 conn.commit()
