@@ -65,11 +65,12 @@ def main():
             pseudo = request.form.get('pseudo')
             mail = request.form.get('mail')
             date = datetime.datetime.now().strftime("%Y-%m-%d")
+            print(pseudo)
             admin, mod = 0, 0
             data = (pseudo, mail, date, admin, mod)
             conn = sqlite3.connect('DataBase.db')
             cur = conn.cursor()
-            cur.execute('SELECT * FROM Users WHERE Mail = ?', mail)
+            cur.execute('SELECT * FROM Users WHERE Mail = ?', [mail])
             conn.commit()
             info = cur.fetchone()
             if info:
@@ -77,12 +78,11 @@ def main():
                 conn.close()
                 return redirect(url_for("inscription", error=1))
             else:
-                cur.execute("INSERT INTO Users(Pseudo,Mail,'Date d\'inscription',Administrateur,Modérateur) VALUES(?, ?, ?, ?, ?)", data)
+                cur.execute('INSERT INTO Users(Pseudo,Mail,"Date d\'inscription",Administrateur,Modérateur) VALUES(?, ?, ?, ?, ?)', data)
                 conn.commit()
                 cur.close()
                 conn.close()
                 return redirect('/')
-
 
     @app.route('/ajout')
     def ajout():
@@ -113,7 +113,7 @@ def main():
                 return redirect(url_for("login", error=1))
 
 
-    app.run(debug=True, host='0.0.0.0', port=80)
+    app.run(debug=True, host='0.0.0.0', port=5000)
 
 
 if __name__ == "__main__":

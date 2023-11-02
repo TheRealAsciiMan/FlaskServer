@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+            rel="shortcut icon"
+            href="{{ url_for('static', filename='images/asgr.png') }}"
+            type="image/x-icon"
+    />
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="{{ url_for('static',filename='bootstrap/bootstrap.min.css') }}"
+    />
+    <script src="{{ url_for('static',filename='bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <title>AsciiGram</title>
+</head>
+<body class="bg-black" style="margin: 0; border: 0; padding: 0">
+    <form method="POST" action="/action_inscription">
+        <div>
+            <label>Pseudo : </label>
+            <input
+                type = "text"
+                name="pseudo"
+                required
+            />
+            <label>Mail : </label>
+            <input
+                type = "email"
+                name="mail"
+                required
+            />
+            <a href="/">Test</a>
+        </div>
+        <button type="submit">S'inscrire</button>
+    </form>
+</body>
+</html>
