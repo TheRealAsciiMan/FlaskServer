@@ -65,7 +65,6 @@ def main():
             pseudo = request.form.get('pseudo')
             mail = request.form.get('mail')
             date = datetime.datetime.now().strftime("%Y-%m-%d")
-            print(pseudo)
             admin, mod = 0, 0
             data = (pseudo, mail, date, admin, mod)
             conn = sqlite3.connect('DataBase.db')
