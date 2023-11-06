@@ -126,22 +126,43 @@
                </div>
             </nav>
          </div>
-         <div class="col-1"></div><div class="align-items-start col-8 text-light">
-            {% for item in liste %}
-            <div class="post brp">
-               <h2 class="text-start" style="padding: 1vh; padding-left: 0; padding-top: 3vh;">{{ item[0] }}</h2>
-               <h5 class="text-end">Auteur : {{ item[4] }} ({{ item[3]}})</h5>
-               <h6 class="text-end" style="padding-bottom: 1vh;">Date exacte d'écriture: {{ item[2] }}</h6>
-               <p class="text-start" style="padding-bottom: 3vh; line-height: 2vh;">{{ item[1]|safe}}</p>
-            </div>
-            {% if not loop.last %}
-            <hr style="background-color: #262626" />
-            {% endif %} {% endfor %}
-         </div>
-         <div class="col-1"></div>
-         <div class="col-8">
-
-         </div>
+         <div class="col-1"></div><div class="container align-items-start col-8 text-light text-center"
+         style="
+                margin-bottom: 25%;
+                margin-top: 10%;
+                border: 2px solid #cccccc;
+                background-color: #1a1a1a;
+                border-radius: 10px;
+             "
+ >
+ <h1 class="card-header m-4">Nouvelle publication</h1>
+</br>
+<form method="POST" action="/action_post" class="card-body">
+    <div class="form-group m-4">
+      <label>Titre : </label>
+      <input
+          type = "text"
+          name="titre"
+          class="form-control"
+          style="width: 30%; margin: 0 auto"
+          required
+      />
+    </div>
+    <div class="form-group m-4">
+      <label>Contenu du post : </label>
+        <textarea
+            type = "text"
+            name="contenu"
+            class="form-control"
+            placeholder="Contenu..."
+            style="width: 30%; margin: 0 auto; resize: none;"
+            required
+        >
+        </textarea>
+        
+    </div>
+    <button type="submit" class="btn btn-primary btn-block m-4">Publier</button>
+</form>
          <div class="col-1"></div>
       </div>
    </body>
