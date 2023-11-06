@@ -144,6 +144,7 @@
           type = "text"
           name="titre"
           class="form-control"
+          placeholder="Titre de la Publication"
           style="width: 50%; margin: 0 auto"
           required
       />
@@ -151,15 +152,14 @@
     <div class="form-group m-4">
       <label>Contenu du Post </label>
         <textarea
-            type = "text"
+            cols=50
+            rows=10
             name="contenu"
             class="form-control"
-            placeholder="Contenu..."
+            placeholder="Contenu de la Publication ! Soyez Imaginatifs !"
             style="width: 90%; height: 90%; margin: 0 auto; resize: none;"
             required
-        >
-        </textarea>
-        
+        ></textarea>
     </div>
     <button type="submit" class="btn btn-primary btn-block m-4">Publier</button>
 </form>

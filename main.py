@@ -40,6 +40,7 @@ def main():
             cur.close()
             conn.close()
             if info:
+                session.clear()
                 session["pseudo"] = info[0]
                 session["mail"] = info[1]
                 session["mod"] = info[3]

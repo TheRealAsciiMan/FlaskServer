@@ -153,16 +153,23 @@
                     <div class="form-group m-4">
                         <label>Mail </label>
                         <input
-                            type = "email"
+                            type="email"
                             name="mail"
                             class="form-control"
                             style="width: 30%; margin: 0 auto"
-                            pattern="[0-9]{8}"
                             required
                         />
                     </div>
                     <button type="submit" class="btn btn-primary btn-block m-4">S'inscrire</button>
                 </form>
+                {% if request.args.error %}
+            <br />
+            <hr />
+            <br />
+            <p class="text-danger h3">
+               <strong>L'adresse Mail existe déjà. Veuillez vous connecter ou changer d'adresse Mail.</strong>
+            </p>
+            {% endif %}
             </div>
             <div class="col-1"></div>
         </div>
