@@ -7,6 +7,7 @@ import sqlite3
 def main():
     app = Flask(__name__)
     app.secret_key = "SD>HD"
+
     @app.route('/')
     def index():
         conn = sqlite3.connect('DataBase.db')
@@ -16,13 +17,11 @@ def main():
         liste = cur.fetchall()
         cur.close()
         conn.close()
-        return render_template("index.html", liste = liste)
-
+        return render_template("index.html", liste=liste)
 
     @app.route('/login')
     def login():
         return render_template("login.html")
-
 
     @app.route('/action_login', methods=['POST', 'GET'])
     def action_login():
@@ -48,12 +47,12 @@ def main():
                 session["admin"] = info[4]
                 return redirect("/ajout")
             else:
-                return redirect(url_for("login", error = 1))
+                return redirect(url_for("login", error=1))
+
     @app.route('/logout')
     def logout():
         session.clear()
         return redirect("/login")
-
 
     @app.route('/inscription')
     def inscription():
@@ -87,7 +86,7 @@ def main():
 
     @app.route('/ajout')
     def ajout():
-        if 'pseudo' in session and type(session["pseudo"]) == str:
+        if 'pseudo' in session and isinstance(session["pseudo"], str):
             return render_template("ajout.html")
         else:
             return redirect("/")
@@ -97,7 +96,7 @@ def main():
         if request.method == 'GET':
             return redirect('/')
         elif request.method == 'POST':
-            if 'pseudo' in session and type(session["pseudo"]) == str:
+            if 'pseudo' in session and isinstance(session["pseudo"], str):
                 titre = request.form.get('titre')
                 contenu = escape(request.form.get('contenu')).replace("\r\n", "<br>").replace("\n", "<br>").replace("\r", "<br>")
                 date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -121,7 +120,6 @@ def main():
 
             else:
                 return redirect(url_for("login", error=1))
-
 
     app.run(debug=True, host='0.0.0.0', port=5000)
 

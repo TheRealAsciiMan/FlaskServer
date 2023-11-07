@@ -131,18 +131,18 @@
             {% for item in liste %}
             <div class="post brp">
                <h2
-                  class="text-start"
+                  class="text-start display-5"
                   style="padding: 1vh; padding-left: 0; padding-top: 3vh"
                >
                   {{ item[0] }}
                </h2>
                <h5 class="text-end">Auteur : {{ item[4] }} ({{ item[3]}})</h5>
                <h6 class="text-end" style="padding-bottom: 1vh">
-                  Date exacte d'écriture: {{ item[2] }}
+                  Date exacte d'écriture : {{item[2]}}
                </h6>
                <p
                   class="text-start"
-                  style="padding-bottom: 3vh; line-height: 2vh"
+                  style="padding-bottom: 3vh; line-height: 2vh; font-size: 1.25rem"
                >
                   {{ item[1]|safe}}
                </p>
