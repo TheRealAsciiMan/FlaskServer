@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, session, url_for
+from markupsafe import escape
 import datetime
 import sqlite3
 
@@ -10,7 +11,7 @@ def main():
     def index():
         conn = sqlite3.connect('DataBase.db')
         cur = conn.cursor()
-        cur.execute('SELECT Posts.*, Users.pseudo FROM Posts INNER JOIN Users ON Posts.auteur = Users.Mail;')
+        cur.execute('SELECT Posts.*, Users.pseudo FROM Posts INNER JOIN Users ON Posts.auteur = Users.Mail ORDER BY Date DESC;')
         conn.commit()
         liste = cur.fetchall()
         cur.close()
@@ -98,17 +99,26 @@ def main():
         elif request.method == 'POST':
             if 'pseudo' in session and type(session["pseudo"]) == str:
                 titre = request.form.get('titre')
-                contenu = request.form.get('contenu').replace("\r\n", "<br>").replace("\n", "<br>").replace("\r", "<br>")
+                contenu = escape(request.form.get('contenu')).replace("\r\n", "<br>").replace("\n", "<br>").replace("\r", "<br>")
                 date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 auteur = session["mail"]
                 data = (titre, contenu, date, auteur)
                 conn = sqlite3.connect('DataBase.db')
                 cur = conn.cursor()
-                cur.execute("INSERT INTO Posts(Titre,Contenu,Date,Auteur) VALUES(?, ?, ?, ?)", data)
+                cur.execute("SELECT * FROM Posts WHERE Contenu = ?", [contenu])
                 conn.commit()
-                cur.close()
-                conn.close()
-                return redirect('/')
+                info = cur.fetchone()
+                if info:
+                    cur.close()
+                    conn.close()
+                    return redirect(url_for("ajout", error=1))
+                else:
+                    cur.execute("INSERT INTO Posts(Titre,Contenu,Date,Auteur) VALUES(?, ?, ?, ?)", data)
+                    conn.commit()
+                    cur.close()
+                    conn.close()
+                    return redirect('/')
+
             else:
                 return redirect(url_for("login", error=1))
 

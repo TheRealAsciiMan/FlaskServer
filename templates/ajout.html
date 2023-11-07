@@ -163,7 +163,14 @@
     </div>
     <button type="submit" class="btn btn-primary btn-block m-4">Publier</button>
 </form>
-
+{% if request.args.error %}
+            <br />
+            <hr />
+            <br />
+            <p class="text-danger h3">
+               <strong>Une Publication similaire existe. Veuillez changez de publication</strong>
+            </p>
+            {% endif %}
       </div>
          <div class="col-1"></div>
       </div>
