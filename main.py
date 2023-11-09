@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, redirect, session, url_for
-from markupsafe import escape
 import datetime
 import sqlite3
 
@@ -98,7 +97,8 @@ def main():
         elif request.method == 'POST':
             if 'pseudo' in session and isinstance(session["pseudo"], str):
                 titre = request.form.get('titre')
-                contenu = escape(request.form.get('contenu')).replace("\r\n", "<br>").replace("\n", "<br>").replace("\r", "<br>")
+                contenu = request.form.get('contenu').replace("<", "").replace(">", "").replace('"', '').replace("'", '')
+                contenu = contenu.replace("\r\n", "<br>").replace("\n", "<br>").replace("\r", "<br>")
                 date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 auteur = session["mail"]
                 data = (titre, contenu, date, auteur)
